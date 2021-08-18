@@ -53,9 +53,14 @@ function onInstall(e) {
     onOpen(e);
 }
 
-function showSidebar() {
-    const html = HtmlService.createHtmlOutputFromFile('sidebar')
-        .setTitle(sidebarName);
+function showSidebar(calendarsEvents: { name: string; id: string; events: { startTime: GoogleAppsScript.Base.Date; id: string; endTime: GoogleAppsScript.Base.Date; title: string }[] }[]) {
+    Logger.log(calendarsEvents);
+
+    const template = HtmlService.createTemplateFromFile('sidebar');
+    template.data = calendarsEvents;
+
+    const html = template.evaluate().setTitle(sidebarName);
+
     SpreadsheetApp.getUi()
         .showSidebar(html);
 }

@@ -6,7 +6,30 @@
 </head>
 <body>
 <aside>
-    sidebar
+
+    <nav>
+        <? for (let i = 0; i < data.length; i++) { ?>
+        <article>
+            <header>
+                <h1><?= data[i].name ?></h1>
+            </header>
+
+            <? for (let j = 0; j < data[i].events.length; j++) { ?>
+            <section>
+                <header>
+                    <h2><?= data[i].events[j].title ?></h2>
+                </header>
+                <article>
+                    <p><?= data[i].events[j].startTime ?></p>
+                    <p><?= data[i].events[j].endTime ?></p>
+                </article>
+            </section>
+            <? } ?>
+
+        </article>
+        <? } ?>
+    </nav>
+
 </aside>
 </body>
 </html>
