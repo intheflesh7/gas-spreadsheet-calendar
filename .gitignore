@@ -1,9 +1,6 @@
 # IDE
 .idea
 
-# Clasp
-.clasp.json
-
 ### Node template
 # Logs
 logs
