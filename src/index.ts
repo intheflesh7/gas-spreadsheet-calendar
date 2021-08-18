@@ -2,6 +2,7 @@
 // noinspection JSUnusedGlobalSymbols
 
 const oneYear = 365 * 24 * 60 * 60 * 1000;
+const maxEvents = 5;
 
 const menuName = 'Мероприятия';
 const itemName = 'Получить';
@@ -13,22 +14,38 @@ function getEvents() {
 
     Logger.log('getEvents()');
     // Determines how many calendars the user can access.
-    const calendarsEvents = CalendarApp.getAllCalendars().map(calendar => {
-        const events = calendar.getEvents(startTime, endTime).map(event => {
-            return {
+    const calendars = CalendarApp.getAllCalendars();
+    const calendarsEvents = [];
+    for (let i = 0; i < calendars.length; i++) {
+        const calendar = calendars[i];
+        const events = calendar.getEvents(startTime, endTime);
+        // Ignore calendar with zero events
+        if (events.length === 0) {
+            continue;
+        }
+
+        const filteredEvents = [];
+        for (let j = 0; j < events.length; j++) {
+            // We don't add more than max events
+            if (j >= maxEvents) {
+                break;
+            }
+
+            const event = events[j];
+            filteredEvents.push({
                 id: event.getId(),
                 title: event.getTitle(),
                 startTime: event.getStartTime(),
                 endTime: event.getEndTime(),
-            }
-        })
+            });
+        }
 
-        return {
+        calendarsEvents.push({
             id: calendar.getId(),
             name: calendar.getName(),
-            events,
-        };
-    });
+            events: filteredEvents,
+        });
+    }
 
     showSidebar(calendarsEvents);
 }
@@ -63,4 +80,5 @@ function showSidebar(calendarsEvents: { name: string; id: string; events: { star
 
     SpreadsheetApp.getUi()
         .showSidebar(html);
+
 }
