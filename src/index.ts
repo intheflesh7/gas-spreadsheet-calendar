@@ -1,8 +1,10 @@
 const menuName = 'Мероприятия';
 const itemName = 'Получить';
+const sidebarName = 'Календари';
 
 function getEvents() {
     Logger.log('getEvents()');
+    showSidebar();
 }
 
 /**
@@ -16,10 +18,18 @@ function onOpen(e) {
         .addItem(itemName, 'getEvents')
         .addToUi();
 }
+
 /**
  * The event handler triggered when installing the add-on.
  * @param {Event} e The onInstall event.
  */
 function onInstall(e) {
     onOpen(e);
+}
+
+function showSidebar() {
+    const html = HtmlService.createHtmlOutputFromFile('sidebar')
+        .setTitle(sidebarName);
+    SpreadsheetApp.getUi()
+        .showSidebar(html);
 }
