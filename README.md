@@ -43,5 +43,3 @@ npm run lint
 ## License
 
 [Apache 2.0](./LICENSE.txt)
-
-© Ivan Starodubtsev, 2021
